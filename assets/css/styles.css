@@ -1,0 +1,38 @@
+:root {
+    --main-bc: rgb(83, 83, 83);
+    --light-text: #fcffe0;
+    --accent: #f0e119;
+}
+
+body {
+    background-color: var(--main-bc);
+    color: var(--light-text);
+}
+.list-group-item {
+    border: none;
+    background-color: var(--light-text);
+}
+
+.card-header {
+    background-color: var(--accent);
+}
+
+.forecast-card {
+    border: 1px solid black;
+    padding-left: 0;
+}
+
+.weather-emoji {
+    font-size: 2rem;
+}
+
+
+.row {
+    --bs-gutter-x: 0;
+}
+
+.btn {
+    background-color: var(--main-bc);
+    color: var(--accent);
+    border-color: var(--accent);
+}
