@@ -51,6 +51,14 @@ body {
     border-radius: 10px;
 }
 
-.prevCityButton:hover {
+.deleteCityButton {
+    background-color: var(--accent);
+    color: black;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.prevCityButton:hover,
+.deleteCityButton:hover {
     background-color: var(--light-text);
 }

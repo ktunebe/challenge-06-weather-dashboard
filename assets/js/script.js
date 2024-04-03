@@ -3,7 +3,7 @@ const APIKey = '2131c7561a194ff2ef8e7f4a9160a776';
 
 // Select html elements
 const cityInputForm = document.querySelector('#cityInputForm');
-const prevCityButton = document.querySelectorAll('.prevCityButton');
+// const prevCityButton = document.querySelectorAll('.prevCityButton');
 const cityInput = document.querySelector('#cityInput')
 const prevCitiesList = document.querySelector('#prevCities');
 const currentCity = document.querySelector('#currentCity');
@@ -19,14 +19,21 @@ let city = localStorage.getItem('currentCity') || 'Chicago';
 let cityList = JSON.parse(localStorage.getItem('cityList')) || [];
 
 /* --------------FUNCTIONS DEALING WITH CITY SEARCH LIST---------------- */
-// Render City List
+// Render City List with delete buttons
 function renderCityList() {
     resetCityList();
     for (const city of cityList) {
-        prevCity = document.createElement('button');
-        prevCity.classList.add('prevCityButton', 'my-1');
-        prevCity.innerText = city;
-        prevCitiesList.append(prevCity);
+        cityButtonContainer = document.createElement('div')
+        cityButtonContainer.classList.add('my-1')
+        prevCityButton = document.createElement('button');
+        deleteCityButton = document.createElement('button')
+        prevCityButton.classList.add('prevCityButton');
+        deleteCityButton.classList.add('deleteCityButton')
+        prevCityButton.innerText = city;
+        deleteCityButton.innerText = 'X'
+        cityButtonContainer.append(deleteCityButton);
+        cityButtonContainer.append(prevCityButton);
+        prevCitiesList.append(cityButtonContainer);
     }
 }
 // Add searched cities to list
@@ -141,7 +148,7 @@ function handleCityInput(city) {
                 }
             }) 
             .catch(function(error) {
-                alert(error.message); // Display error message to the user
+                alert(error.message); 
                 return;
             });   
             
@@ -153,19 +160,31 @@ handleCityInput(city);
 renderCityList();
 
 // Event Listeners
+// Handle new city on form input
 cityInputForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
     let city = cityInput.value;
     handleCityInput(city)
-
 })
-
+// Set current city to whatever city button is clicked
 document.body.addEventListener('click', function(e) {
     if (e.target.classList.contains('prevCityButton')) {
-        resetFiveDay();
         city = e.target.innerText;
         handleCityInput(city);
         localStorage.setItem('currentCity', city);
+    }
+})
+// Handle deleting a city button from the list and removing that city from the list
+document.body.addEventListener('click', function(e) {
+    if (e.target.classList.contains('deleteCityButton')) {
+        buttonToDelete = e.target.parentNode;
+        citytoDelete = e.target.nextSibling.innerText;
+        buttonToDelete.remove();
+        cityList = cityList.filter(function(city) {
+            return city !== citytoDelete;
+        })
+        localStorage.setItem('cityList', JSON.stringify(cityList))
+        return cityList;
     }
 })
