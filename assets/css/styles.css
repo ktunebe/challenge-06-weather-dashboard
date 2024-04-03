@@ -15,6 +15,7 @@ body {
 
 .card-header {
     background-color: var(--accent);
+    font-weight: bold;
 }
 
 .forecast-card {
@@ -31,8 +32,25 @@ body {
     --bs-gutter-x: 0;
 }
 
-.btn {
+#searchBtn {
     background-color: var(--main-bc);
     color: var(--accent);
     border-color: var(--accent);
+}
+
+#searchBtn:hover {
+    color: var(--light-text);
+    border-color: var(--light-text);
+}
+
+.prevCityButton {
+    width: 75%;
+    background-color: var(--accent);
+    color: black;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.prevCityButton:hover {
+    background-color: var(--light-text);
 }

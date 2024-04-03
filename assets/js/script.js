@@ -79,8 +79,6 @@ function renderFiveDay() {
     dateHeader.classList.add('card-header');
     const ul = document.createElement('ul');
     ul.classList.add('list-group');
-    const emoji = document.createElement('li');
-    emoji.classList.add('list-group-item');
     const temp = document.createElement('li');
     temp.classList.add('list-group-item');
     const wind = document.createElement('li');
@@ -88,13 +86,12 @@ function renderFiveDay() {
     const humidity = document.createElement('li');
     humidity.classList.add('list-group-item');
     // Fill in data
-    dateHeader.innerText = dayjs(fiveDay.list[i].dt_txt).format('M/DD/YYYY');
-    emoji.innerText = setWeatherEmoji(fiveDay.list[i]);
+    dateHeader.innerText = `${dayjs(fiveDay.list[i].dt_txt).format('M/DD/YYYY')} ${setWeatherEmoji(fiveDay.list[i])}` ;
     temp.innerText = ` Temp: ${fiveDay.list[i].main.temp}\u00B0F`;
     wind.innerText = `Wind: ${fiveDay.list[i].wind.speed} MPH`;
     humidity.innerText = `Humidity: ${fiveDay.list[i].main.humidity}%`;
     // Append to document
-    ul.append(emoji, temp, wind, humidity);
+    ul.append(temp, wind, humidity);
     fiveDayCard.append(dateHeader, ul);
     fiveDayRow.append(fiveDayCard);
 }
