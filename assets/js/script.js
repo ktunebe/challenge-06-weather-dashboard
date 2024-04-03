@@ -142,7 +142,7 @@ function handleCityInput(city) {
             })
             .then(function(fiveDayData) {
                 fiveDay = fiveDayData;
-                
+                // API call returns status for every 3 hours for 5 days - use data for every 8 array objects
                 for (i = 7; i <= 39 ; i += 8) {
                     renderFiveDay()
                 }
