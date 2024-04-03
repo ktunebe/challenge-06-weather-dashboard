@@ -21,6 +21,7 @@ let cityList = JSON.parse(localStorage.getItem('cityList')) || [];
 /* --------------FUNCTIONS DEALING WITH CITY SEARCH LIST---------------- */
 // Render City List
 function renderCityList() {
+    resetCityList();
     for (const city of cityList) {
         prevCity = document.createElement('button');
         prevCity.classList.add('prevCityButton', 'my-1');
@@ -30,13 +31,15 @@ function renderCityList() {
 }
 // Add searched cities to list
 function addCityToList() {
-    let searchedCityEntered = cityInput.value;
-    let searchedCityLower = searchedCityEntered.toLowerCase();
-    let searchedCity = searchedCityLower.charAt(0).toUpperCase() + searchedCityLower.slice(1);
-    if (!cityList.includes(searchedCity)) {
-        cityList.push(searchedCity);
+    if (cityInput.value !== '') {
+        let searchedCityEntered = cityInput.value;
+        let searchedCityLower = searchedCityEntered.toLowerCase();
+        let searchedCity = searchedCityLower.charAt(0).toUpperCase() + searchedCityLower.slice(1);
+        if (!cityList.includes(searchedCity)) {
+            cityList.push(searchedCity);
+        }
+        localStorage.setItem('cityList', JSON.stringify(cityList))
     }
-    localStorage.setItem('cityList', JSON.stringify(cityList))
     return cityList;
 }
 // Reset City List
@@ -110,6 +113,11 @@ function handleCityInput(city) {
             if (!response.ok) {
                 throw new Error('City not found. Please enter a valid city name.');
             }
+            resetFiveDay()
+            addCityToList();
+            renderCityList();
+            localStorage.setItem('currentCity', city);
+            cityInput.value = '';
             return response.json();
         })
         .then(function(cityData) {
@@ -127,13 +135,17 @@ function handleCityInput(city) {
             })
             .then(function(fiveDayData) {
                 fiveDay = fiveDayData;
+                
                 for (i = 7; i <= 39 ; i += 8) {
                     renderFiveDay()
                 }
             }) 
             .catch(function(error) {
                 alert(error.message); // Display error message to the user
+                return;
             });   
+            
+            
 }
 /* ----------------------------------------------------------------------------- */
 // Init - Grab last city looked at and render the weather data and create history list from local storage
@@ -143,15 +155,10 @@ renderCityList();
 // Event Listeners
 cityInputForm.addEventListener('submit', function(e) {
     e.preventDefault();
- 
-    resetFiveDay()
+    
     let city = cityInput.value;
     handleCityInput(city)
-    resetCityList();
-    addCityToList();
-    renderCityList();
-    localStorage.setItem('currentCity', city);
-    cityInput.value = ''
+
 })
 
 document.body.addEventListener('click', function(e) {
