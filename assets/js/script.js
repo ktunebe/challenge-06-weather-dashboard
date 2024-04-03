@@ -23,7 +23,7 @@ let cityList = JSON.parse(localStorage.getItem('cityList')) || [];
 function renderCityList() {
     for (const city of cityList) {
         prevCity = document.createElement('button');
-        prevCity.classList.add('prevCityButton');
+        prevCity.classList.add('prevCityButton', 'my-1');
         prevCity.innerText = city;
         prevCitiesList.append(prevCity);
     }
@@ -107,6 +107,9 @@ function handleCityInput(city) {
     const queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}&units=imperial`;
     fetch(queryURL)
         .then(function(response) {
+            if (!response.ok) {
+                throw new Error('City not found. Please enter a valid city name.');
+            }
             return response.json();
         })
         .then(function(cityData) {
@@ -127,7 +130,10 @@ function handleCityInput(city) {
                 for (i = 7; i <= 39 ; i += 8) {
                     renderFiveDay()
                 }
-            })    
+            }) 
+            .catch(function(error) {
+                alert(error.message); // Display error message to the user
+            });   
 }
 /* ----------------------------------------------------------------------------- */
 // Init - Grab last city looked at and render the weather data and create history list from local storage
@@ -140,10 +146,11 @@ cityInputForm.addEventListener('submit', function(e) {
  
     resetFiveDay()
     let city = cityInput.value;
-    handleCityInput(city);
+    handleCityInput(city)
     resetCityList();
     addCityToList();
     renderCityList();
+    localStorage.setItem('currentCity', city);
     cityInput.value = ''
 })
 
