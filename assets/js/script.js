@@ -114,7 +114,7 @@ function resetFiveDay() {
 // Function to get and render data
 function handleCityInput(city) {
     // OpenWeather API call for current city using city name
-    const queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}&units=imperial`;
+    const queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}&units=imperial`;
     fetch(queryURL)
         .then(function(response) {
             if (!response.ok) {
@@ -134,7 +134,7 @@ function handleCityInput(city) {
             const cityLat = city.coord.lat;
             const cityLon = city.coord.lon;
             // OpenWeather API call for five day forecast
-            const fiveDayURL = `http://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&cnt=50&appid=${APIKey}&units=imperial`;
+            const fiveDayURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${cityLat}&lon=${cityLon}&cnt=50&appid=${APIKey}&units=imperial`;
             return fetch(fiveDayURL);
         })
             .then(function(response) {
